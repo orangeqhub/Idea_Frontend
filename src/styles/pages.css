@@ -1,0 +1,35 @@
+/* Page-specific styles */
+
+@layer utilities {
+  .hero-gradient {
+    background: linear-gradient(135deg, #0B1220 0%, #172033 60%, #0B1220 100%);
+  }
+
+  .gold-divider {
+    @apply w-16 h-0.5 bg-idea-gold mx-auto;
+  }
+
+  .gold-divider-left {
+    @apply w-16 h-0.5 bg-idea-gold;
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .prose-idea {
+    @apply text-idea-muted leading-relaxed;
+  }
+
+  .admin-sidebar-link {
+    @apply flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition-colors;
+  }
+
+  .admin-sidebar-link-active {
+    @apply bg-idea-gold/10 text-idea-gold;
+  }
+
+  .admin-sidebar-link-inactive {
+    @apply text-white/70 hover:bg-white/5 hover:text-white;
+  }
+}
