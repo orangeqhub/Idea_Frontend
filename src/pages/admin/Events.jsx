@@ -177,7 +177,7 @@ export default function AdminEvents() {
                 <input {...register('contactDetails')} className="w-full px-3 py-2 border border-idea-border rounded text-sm focus:outline-none focus:border-idea-navy" />
               </div>
               <div>
-                <label className="text-xs font-medium text-idea-navy mb-1 block">Cover Image</label>
+                <label className="text-xs font-medium text-idea-navy mb-1 block">Cover Image (Max 10MB)</label>
                 <input type="file" accept="image/jpeg,image/png,image/webp" onChange={e => setCoverFile(e.target.files?.[0] || null)} className="w-full text-sm text-idea-muted file:mr-3 file:py-1.5 file:px-3 file:border file:border-idea-border file:rounded file:text-xs file:bg-white file:cursor-pointer" />
               </div>
               <label className="flex items-center gap-2 cursor-pointer">

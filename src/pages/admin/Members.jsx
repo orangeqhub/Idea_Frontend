@@ -45,7 +45,7 @@ export default function AdminMembers() {
 
   const openEdit = (m) => {
     setEditing(m);
-    const fields = ['fullName', 'businessCategory', 'businessName', 'workExperience', 'ideaSince', 'serviceArea', 'officeLocation', 'biography'];
+    const fields = ['fullName', 'businessCategory', 'businessName', 'workExperience', 'ideaSince', 'serviceArea', 'officeLocation', 'biography', 'youtubeUrl', 'facebookUrl', 'instagramUrl', 'linkedinUrl'];
     fields.forEach(f => setValue(f, m[f] || ''));
     setValue('dateOfBirth', m.dateOfBirth ? m.dateOfBirth.split('T')[0] : '');
     setValue('numberOfBranches', m.numberOfBranches ? String(m.numberOfBranches) : '');
@@ -53,7 +53,7 @@ export default function AdminMembers() {
     setShowForm(true);
   };
 
-  const closeForm = () => { setEditing(null); setShowForm(false); setPhotoFile(null); reset({ isActive: true, isFeatured: false, displayOrder: 1 }); };
+  const closeForm = () => { setEditing(null); setShowForm(false); setPhotoFile(null); reset({ isActive: true, isFeatured: false, displayOrder: 1, youtubeUrl: '', facebookUrl: '', instagramUrl: '', linkedinUrl: '' }); };
 
   return (
     <div>
@@ -181,8 +181,28 @@ export default function AdminMembers() {
                 <label className="text-xs font-medium text-idea-navy mb-1 block">Biography</label>
                 <textarea {...register('biography')} rows={3} className="w-full px-3 py-2 border border-idea-border rounded text-sm focus:outline-none focus:border-idea-navy resize-none" />
               </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="text-xs font-medium text-idea-navy mb-1 block">Facebook URL</label>
+                  <input {...register('facebookUrl')} placeholder="https://facebook.com/..." className="w-full px-3 py-2 border border-idea-border rounded text-sm focus:outline-none focus:border-idea-navy" />
+                </div>
+                <div>
+                  <label className="text-xs font-medium text-idea-navy mb-1 block">Instagram URL</label>
+                  <input {...register('instagramUrl')} placeholder="https://instagram.com/..." className="w-full px-3 py-2 border border-idea-border rounded text-sm focus:outline-none focus:border-idea-navy" />
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="text-xs font-medium text-idea-navy mb-1 block">LinkedIn URL</label>
+                  <input {...register('linkedinUrl')} placeholder="https://linkedin.com/in/..." className="w-full px-3 py-2 border border-idea-border rounded text-sm focus:outline-none focus:border-idea-navy" />
+                </div>
+                <div>
+                  <label className="text-xs font-medium text-idea-navy mb-1 block">YouTube URL</label>
+                  <input {...register('youtubeUrl')} placeholder="https://youtube.com/..." className="w-full px-3 py-2 border border-idea-border rounded text-sm focus:outline-none focus:border-idea-navy" />
+                </div>
+              </div>
               <div>
-                <label className="text-xs font-medium text-idea-navy mb-1 block">Profile Photo</label>
+                <label className="text-xs font-medium text-idea-navy mb-1 block">Profile Photo (Max 10MB)</label>
                 <input type="file" accept="image/jpeg,image/png,image/webp" onChange={e => setPhotoFile(e.target.files?.[0] || null)} className="w-full text-sm text-idea-muted file:mr-3 file:py-1.5 file:px-3 file:border file:border-idea-border file:rounded file:text-xs file:bg-white file:cursor-pointer" />
               </div>
               <div className="grid grid-cols-3 gap-4 items-end">
@@ -199,7 +219,16 @@ export default function AdminMembers() {
                   <span className="text-sm text-idea-navy">Featured</span>
                 </label>
               </div>
-              {saveMutation.isError && <p className="text-red-500 text-sm">Error saving. Please try again.</p>}
+              {saveMutation.isError && (
+                <div className="bg-red-50 border border-red-200 rounded p-3 text-red-600 text-sm space-y-1">
+                  <p className="font-semibold">Error saving. Please correct the following:</p>
+                  <ul className="list-disc pl-4 text-xs space-y-0.5">
+                    {saveMutation.error.response?.data?.errors?.map((err, idx) => (
+                      <li key={idx}>{err.message || err.msg}</li>
+                    )) || <li>An unexpected server error occurred.</li>}
+                  </ul>
+                </div>
+              )}
               <div className="flex gap-3 pt-2">
                 <button type="submit" disabled={saveMutation.isPending} className="flex-1 py-2.5 bg-idea-navy text-white text-sm font-semibold rounded hover:bg-idea-navy-2 disabled:opacity-60">
                   {saveMutation.isPending ? 'Saving…' : editing ? 'Update Member' : 'Create Member'}

@@ -1,16 +1,18 @@
 import { Outlet, NavLink, Navigate } from 'react-router-dom';
 import { useState } from 'react';
 import logo from '@/assets/idea-guntur-rocket-logo.jpg';
-import { LayoutDashboard, Users, CalendarDays, MessageSquare, FileText, Settings, LogOut, Menu, X, Home, TableProperties } from 'lucide-react';
+import { LayoutDashboard, Users, CalendarDays, MessageSquare, FileText, Settings, LogOut, Menu, X, Home, TableProperties, Quote, UserCheck } from 'lucide-react';
 import { useAuth, useLogout } from '../hooks/useAuth';
 import { useCsrf } from '../hooks/useCsrf';
 
 const navItems = [
   { label: 'Dashboard', to: '/admin', icon: LayoutDashboard, end: true },
   { label: 'Head Table', to: '/admin/head-table', icon: TableProperties },
+  { label: 'Coordinators', to: '/admin/coordinators', icon: UserCheck },
   { label: 'Members', to: '/admin/members', icon: Users },
   { label: 'Events', to: '/admin/events', icon: CalendarDays },
   { label: 'Enquiries', to: '/admin/enquiries', icon: MessageSquare },
+  { label: 'Testimonials', to: '/admin/testimonials', icon: Quote },
   { label: 'Content', to: '/admin/content', icon: FileText },
   { label: 'Settings', to: '/admin/settings', icon: Settings },
 ];

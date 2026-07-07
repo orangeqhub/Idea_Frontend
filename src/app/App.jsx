@@ -20,6 +20,8 @@ const AdminEvents = lazy(() => import('@/pages/admin/Events'));
 const AdminEnquiries = lazy(() => import('@/pages/admin/Enquiries'));
 const AdminContent = lazy(() => import('@/pages/admin/Content'));
 const AdminSettings = lazy(() => import('@/pages/admin/Settings'));
+const AdminTestimonials = lazy(() => import('@/pages/admin/Testimonials'));
+const AdminCoordinators = lazy(() => import('@/pages/admin/Coordinators'));
 
 function Loading() {
   return (
@@ -51,6 +53,8 @@ export default function App() {
           <Route path="enquiries" element={<AdminEnquiries />} />
           <Route path="content" element={<AdminContent />} />
           <Route path="settings" element={<AdminSettings />} />
+          <Route path="testimonials" element={<AdminTestimonials />} />
+          <Route path="coordinators" element={<AdminCoordinators />} />
         </Route>
       </Routes>
     </Suspense>

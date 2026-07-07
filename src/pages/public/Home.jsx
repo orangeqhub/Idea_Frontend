@@ -9,6 +9,7 @@ export default function Home() {
   const { data: content } = useQuery({ queryKey: ['content'], queryFn: async () => (await publicApi.get('/api/public/content')).data.data, staleTime: 10 * 60 * 1000 });
   const { data: settings } = useQuery({ queryKey: ['settings'], queryFn: async () => (await publicApi.get('/api/public/settings')).data.data, staleTime: 10 * 60 * 1000 });
   const { data: headTable } = useQuery({ queryKey: ['head-table'], queryFn: async () => (await publicApi.get('/api/public/head-table')).data.data });
+  const { data: testimonials } = useQuery({ queryKey: ['testimonials'], queryFn: async () => (await publicApi.get('/api/public/testimonials')).data.data });
   const { data: eventsRes } = useQuery({ queryKey: ['events', 'home-preview'], queryFn: async () => (await publicApi.get('/api/public/events?status=UPCOMING&pageSize=6')).data });
 
   const upcomingEvents = eventsRes?.data || [];
@@ -52,30 +53,50 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Head Table */}
-      {headTable && headTable.length > 0 && (
-        <section className="py-20 bg-white">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-12">
-              <h2 className="font-heading text-3xl md:text-4xl font-bold text-idea-navy">Head Table</h2>
-              <p className="mt-3 text-idea-muted max-w-xl mx-auto">Meet the leadership team guiding IDEA's vision and community growth.</p>
-            </div>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
-              {headTable.map(m => (
-                <div key={m.id} className="group text-center">
-                  <div className="relative overflow-hidden rounded-lg aspect-square mb-3 border border-idea-border shadow-sm group-hover:shadow-md group-hover:border-idea-gold transition-all duration-300">
-                    <img src={m.photoUrl || `https://ui-avatars.com/api/?name=${encodeURIComponent(m.fullName)}&size=200&background=0B1220&color=C8A96B`} alt={m.fullName} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
-                  </div>
-                  <h3 className="font-heading font-semibold text-idea-navy text-sm">{m.fullName}</h3>
-                  <p className="text-idea-gold text-xs font-medium mt-0.5">{m.designation}</p>
-                  <p className="text-idea-muted text-xs mt-0.5">{m.businessName}</p>
-                  {m.caption && <p className="text-idea-muted text-xs mt-1 italic">{m.caption}</p>}
-                </div>
-              ))}
-            </div>
+      {/* Testimonials Section */}
+      <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <span className="inline-block text-xs font-bold uppercase tracking-widest text-idea-gold mb-3">TESTIMONIALS</span>
+            <h2 className="font-heading text-3xl md:text-4xl font-bold text-idea-navy">What Our Members Say</h2>
+            <p className="mt-3 text-idea-muted max-w-xl mx-auto">Hear from leaders and founders who have grown their businesses through our network.</p>
           </div>
-        </section>
-      )}
+          <div className="grid md:grid-cols-3 gap-8">
+            {(testimonials && testimonials.length > 0 ? testimonials : [
+              {
+                quote: "IDEA has completely transformed how I connect with local business owners. The quality of networking and mutual support in this community is unparalleled.",
+                author: "Kalyan Ram",
+                role: "CEO, TechVantage",
+                business: "IT Consulting"
+              },
+              {
+                quote: "The business exhibitions and speaker sessions have given my brand massive visibility. Highly recommend joining IDEA to any growing founder.",
+                author: "Srinivas Rao",
+                role: "Founder, GreenLands Developers",
+                business: "Real Estate"
+              },
+              {
+                quote: "Through IDEA Guntur, I found three major strategic partners that helped scale our manufacturing operations across South India.",
+                author: "Lakshmi Prasanna",
+                role: "Managing Director, Sri Krishna Spices",
+                business: "Food Processing"
+              }
+            ]).map((t, idx) => (
+              <div key={idx} className="bg-idea-ivory/40 border border-idea-border rounded-lg p-8 shadow-sm flex flex-col justify-between hover:shadow-md hover:border-idea-gold transition-all duration-300">
+                <div>
+                  <div className="text-idea-gold text-4xl mb-4 font-serif">“</div>
+                  <p className="text-idea-navy/90 text-sm leading-relaxed italic">{t.quote}</p>
+                </div>
+                <div className="mt-6 pt-6 border-t border-idea-border/60">
+                  <h4 className="font-heading font-bold text-idea-navy text-sm">{t.author}</h4>
+                  {t.role && <p className="text-idea-gold text-xs font-semibold">{t.role}</p>}
+                  {t.business && <p className="text-idea-muted text-xs mt-0.5">{t.business}</p>}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* Events Preview */}
       <section className="py-20 bg-idea-ivory">

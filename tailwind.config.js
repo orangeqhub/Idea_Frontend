@@ -26,6 +26,10 @@ const config = {
         popover: { DEFAULT: 'hsl(var(--popover))', foreground: 'hsl(var(--popover-foreground))' },
         card: { DEFAULT: 'hsl(var(--card))', foreground: 'hsl(var(--card-foreground))' },
       },
+      boxShadow: {
+        'theme-card': '0 4px 20px rgba(11, 18, 32, 0.05)',
+        'theme-card-hover': '0 12px 30px rgba(200, 169, 107, 0.15)',
+      },
       fontFamily: {
         heading: ['"Playfair Display"', 'Georgia', 'serif'],
         body: ['Manrope', 'Inter', 'system-ui', 'sans-serif'],
