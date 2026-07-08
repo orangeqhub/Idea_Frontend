@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const baseURL = import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:3001';
+// const baseURL = import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:3001';
+const baseURL = import.meta.env.VITE_API_BASE_URL;
 
 export const adminApi = axios.create({
   baseURL,
