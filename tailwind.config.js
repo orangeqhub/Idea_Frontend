@@ -31,6 +31,7 @@ const config = {
         'theme-card-hover': '0 12px 30px rgba(200, 169, 107, 0.15)',
       },
       fontFamily: {
+        sans: ['Manrope', 'Inter', 'system-ui', 'sans-serif'],
         heading: ['"Playfair Display"', 'Georgia', 'serif'],
         body: ['Manrope', 'Inter', 'system-ui', 'sans-serif'],
       },

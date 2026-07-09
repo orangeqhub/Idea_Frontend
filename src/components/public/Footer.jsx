@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { publicApi } from '../../services/publicApi';
-import logo from '@/assets/idea-guntur-rocket-logo.jpg';
+import logo from '@/assets/idea-logo.png';
 
 export default function Footer() {
   const { data } = useQuery({
@@ -18,9 +18,10 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="md:col-span-2">
-            <div className="flex items-center gap-3">
-              <img src={logo} alt="IDEA Guntur Rocket" className="h-16 w-auto object-contain" />
-              <span className="font-heading text-xl font-bold text-white">IDEA</span>
+            <div className="flex items-center">
+              <div className="bg-white p-2 rounded-xl inline-block shadow-sm">
+                <img src={logo} alt="IDEA" className="h-16 w-auto object-contain" />
+              </div>
             </div>
             <p className="mt-3 text-sm leading-relaxed">{data?.['site.footer.description'] || 'A trusted business networking community.'}</p>
             <div className="flex gap-4 mt-4">

@@ -1,11 +1,10 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
-import logo from '@/assets/idea-guntur-rocket-logo.jpg';
+import logo from '@/assets/idea-logo.png';
 
 const links = [
   { label: 'Home', to: '/' },
-  { label: 'Members', to: '/members' },
   { label: 'Events', to: '/events' },
   { label: 'About Us', to: '/about' },
   { label: 'Contact', to: '/contact' },
@@ -28,9 +27,8 @@ export default function Navbar() {
     <header className={`sticky top-0 z-50 transition-shadow duration-200 bg-white ${scrolled ? 'shadow-md' : 'border-b border-idea-border'}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          <Link to="/" className="flex items-center gap-3">
-            <img src={logo} alt="IDEA Guntur Rocket" className="h-12 w-auto object-contain" />
-            <span className="font-heading text-xl font-bold text-idea-navy">IDEA</span>
+          <Link to="/" className="flex items-center">
+            <img src={logo} alt="IDEA" className="h-14 w-auto object-contain" />
           </Link>
           <nav className="hidden md:flex items-center gap-6">
             {links.map(l => (

@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { useMutation } from '@tanstack/react-query';
 import { adminApi } from '../../services/adminApi';
 import { useAuth } from '../../hooks/useAuth';
-import logo from '@/assets/idea-guntur-rocket-logo.jpg';
+import logo from '@/assets/idea-logo.png';
 
 export default function AdminLogin() {
   const navigate = useNavigate();
@@ -29,9 +29,8 @@ export default function AdminLogin() {
     <div className="min-h-screen bg-idea-navy flex items-center justify-center px-4">
       <div className="bg-white rounded-lg shadow-xl p-8 w-full max-w-md">
         <div className="text-center mb-8">
-          <div className="flex items-center justify-center gap-3">
-            <img src={logo} alt="IDEA Guntur Rocket" className="h-24 w-auto object-contain" />
-            <span className="font-heading text-2xl font-bold text-idea-navy">IDEA</span>
+          <div className="flex items-center justify-center">
+            <img src={logo} alt="IDEA" className="h-24 w-auto object-contain" />
           </div>
           <p className="mt-2 text-sm text-idea-muted">Admin Dashboard</p>
         </div>

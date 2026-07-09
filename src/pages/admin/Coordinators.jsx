@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import { adminApi } from '../../services/adminApi';
+import { publicApi } from '../../services/publicApi';
 import { Plus, Pencil, Trash2, X } from 'lucide-react';
 
 export default function AdminCoordinators() {
@@ -9,15 +10,24 @@ export default function AdminCoordinators() {
   const [editing, setEditing] = useState(null);
   const [showForm, setShowForm] = useState(false);
   const [photoFile, setPhotoFile] = useState(null);
+  const [businessLogoFile, setBusinessLogoFile] = useState(null);
+  const [businessGalleryFiles, setBusinessGalleryFiles] = useState([]);
+  const [existingGallery, setExistingGallery] = useState([]);
   const [deleteId, setDeleteId] = useState(null);
+  const [youtubeUrls, setYoutubeUrls] = useState(['']);
 
   const { data: coordinators, isLoading } = useQuery({
     queryKey: ['admin', 'coordinators'],
     queryFn: async () => (await adminApi.get('/api/admin/coordinators')).data.data,
   });
 
+  const { data: chapters = [] } = useQuery({
+    queryKey: ['admin', 'chapters-list'],
+    queryFn: async () => (await publicApi.get('/api/public/chapters')).data.data,
+  });
+
   const { register, handleSubmit, reset, setValue, formState: { errors } } = useForm({
-    defaultValues: { designation: 'Coordinator', isActive: true, displayOrder: 1 }
+    defaultValues: { designation: 'Coordinator', isActive: true, displayOrder: 1, chapterId: '', businessDescription: '' }
   });
 
   const invalidate = () => qc.invalidateQueries({ queryKey: ['admin', 'coordinators'] });
@@ -27,6 +37,12 @@ export default function AdminCoordinators() {
       const fd = new FormData();
       Object.entries(formData).forEach(([k, v]) => { if (v !== '' && v !== undefined) fd.append(k, String(v)); });
       if (photoFile) fd.append('photo', photoFile);
+      if (businessLogoFile) fd.append('businessLogo', businessLogoFile);
+      if (businessGalleryFiles && businessGalleryFiles.length > 0) {
+        businessGalleryFiles.forEach(file => fd.append('businessGallery', file));
+      }
+      fd.append('existingGallery', existingGallery.join(','));
+
       if (editing) return adminApi.put(`/api/admin/coordinators/${editing.id}`, fd, { headers: { 'Content-Type': 'multipart/form-data' } });
       return adminApi.post('/api/admin/coordinators', fd, { headers: { 'Content-Type': 'multipart/form-data' } });
     },
@@ -53,6 +69,11 @@ export default function AdminCoordinators() {
     setValue('facebookUrl', m.facebookUrl || '');
     setValue('instagramUrl', m.instagramUrl || '');
     setValue('linkedinUrl', m.linkedinUrl || '');
+    setValue('whatsappNumber', m.whatsappNumber || '');
+    setValue('chapterId', m.chapterId || '');
+    setValue('businessDescription', m.businessDescription || '');
+    setYoutubeUrls(m.youtubeUrl ? m.youtubeUrl.split(',') : ['']);
+    setExistingGallery(m.businessGallery ? m.businessGallery.split(',').filter(Boolean) : []);
     setShowForm(true);
   };
 
@@ -60,7 +81,16 @@ export default function AdminCoordinators() {
     setEditing(null);
     setShowForm(false);
     setPhotoFile(null);
-    reset({ designation: 'Coordinator', isActive: true, displayOrder: 1, dateOfBirth: '', workExperience: '', ideaSince: '', numberOfBranches: '', serviceArea: '', officeLocation: '', biography: '', youtubeUrl: '', facebookUrl: '', instagramUrl: '', linkedinUrl: '' });
+    setBusinessLogoFile(null);
+    setBusinessGalleryFiles([]);
+    setExistingGallery([]);
+    reset({ designation: 'Coordinator', isActive: true, displayOrder: 1, dateOfBirth: '', workExperience: '', ideaSince: '', numberOfBranches: '', serviceArea: '', officeLocation: '', biography: '', youtubeUrl: '', facebookUrl: '', instagramUrl: '', linkedinUrl: '', whatsappNumber: '', chapterId: '', businessDescription: '' });
+    setYoutubeUrls(['']);
+  };
+
+  const onSaveSubmit = (d) => {
+    d.youtubeUrl = youtubeUrls.filter(u => u.trim() !== '').join(',');
+    saveMutation.mutate(d);
   };
 
   return (
@@ -106,7 +136,7 @@ export default function AdminCoordinators() {
               <h2 className="font-heading font-bold text-idea-navy">{editing ? 'Edit' : 'Add'} Coordinator</h2>
               <button onClick={closeForm}><X size={18} className="text-idea-muted" /></button>
             </div>
-            <form onSubmit={handleSubmit(d => saveMutation.mutate(d))} className="space-y-4">
+            <form onSubmit={handleSubmit(onSaveSubmit)} className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="text-xs font-medium text-idea-navy mb-1 block">Full Name *</label>
@@ -176,14 +206,95 @@ export default function AdminCoordinators() {
                   <label className="text-xs font-medium text-idea-navy mb-1 block">LinkedIn URL</label>
                   <input {...register('linkedinUrl')} placeholder="https://linkedin.com/in/..." className="w-full px-3 py-2 border border-idea-border rounded text-sm focus:outline-none focus:border-idea-navy" />
                 </div>
+              </div>
+              <div className="border border-idea-border/60 rounded-lg p-3 bg-idea-navy/[0.01]">
+                <label className="text-xs font-semibold text-idea-navy mb-2 block flex justify-between items-center">
+                  <span>YouTube Videos</span>
+                  <button type="button" onClick={() => setYoutubeUrls([...youtubeUrls, ''])} className="text-[10px] bg-idea-navy text-white px-2 py-0.5 rounded hover:bg-idea-gold hover:text-idea-navy font-bold uppercase tracking-wider transition-colors duration-200">
+                    + Add YouTube Video
+                  </button>
+                </label>
+                <div className="space-y-2">
+                  {youtubeUrls.map((url, idx) => (
+                    <div key={idx} className="flex gap-2">
+                      <input 
+                        value={url} 
+                        onChange={e => {
+                          const copy = [...youtubeUrls];
+                          copy[idx] = e.target.value;
+                          setYoutubeUrls(copy);
+                        }}
+                        placeholder="https://youtube.com/watch?v=..." 
+                        className="flex-1 px-3 py-2 border border-idea-border rounded text-sm focus:outline-none focus:border-idea-navy" 
+                      />
+                      {youtubeUrls.length > 1 && (
+                        <button 
+                          type="button" 
+                          onClick={() => setYoutubeUrls(youtubeUrls.filter((_, i) => i !== idx))} 
+                          className="px-3 py-2 text-red-500 hover:text-white hover:bg-red-500 hover:border-red-500 text-xs border border-idea-border rounded transition-all duration-200"
+                        >
+                          Remove
+                        </button>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="text-xs font-medium text-idea-navy mb-1 block">YouTube URL</label>
-                  <input {...register('youtubeUrl')} placeholder="https://youtube.com/..." className="w-full px-3 py-2 border border-idea-border rounded text-sm focus:outline-none focus:border-idea-navy" />
+                  <label className="text-xs font-medium text-idea-navy mb-1 block">WhatsApp Number</label>
+                  <input {...register('whatsappNumber')} placeholder="e.g. 919876543210 (include country code without +)" className="w-full px-3 py-2 border border-idea-border rounded text-sm focus:outline-none focus:border-idea-navy" />
+                </div>
+                <div>
+                  <label className="text-xs font-medium text-idea-navy mb-1 block">Chapter</label>
+                  <select {...register('chapterId')} className="w-full px-3 py-2 border border-idea-border rounded text-sm bg-white focus:outline-none focus:border-idea-navy">
+                    <option value="">No Chapter (General)</option>
+                    {chapters.map(c => (
+                      <option key={c.id} value={c.id}>{c.name}</option>
+                    ))}
+                  </select>
                 </div>
               </div>
               <div>
-                <label className="text-xs font-medium text-idea-navy mb-1 block">Photo (Max 10MB) {editing?.photoUrl && '(leave empty to keep current)'}</label>
-                <input type="file" accept="image/jpeg,image/png,image/webp" onChange={e => setPhotoFile(e.target.files?.[0] || null)} className="w-full text-sm text-idea-muted file:mr-3 file:py-1.5 file:px-3 file:border file:border-idea-border file:rounded file:text-xs file:bg-white file:cursor-pointer" />
+                <label className="text-xs font-medium text-idea-navy mb-1 block">About Business</label>
+                <textarea {...register('businessDescription')} placeholder="Tell us about the business, products, or services…" rows={3} className="w-full px-3 py-2 border border-idea-border rounded text-sm focus:outline-none focus:border-idea-navy" />
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="text-xs font-medium text-idea-navy mb-1 block">Profile Photo (Max 10MB)</label>
+                  <input type="file" accept="image/jpeg,image/png,image/webp" onChange={e => setPhotoFile(e.target.files?.[0] || null)} className="w-full text-sm text-idea-muted file:mr-3 file:py-1.5 file:px-3 file:border file:border-idea-border file:rounded file:text-xs file:bg-white file:cursor-pointer" />
+                </div>
+                <div>
+                  <label className="text-xs font-medium text-idea-navy mb-1 block">Business Logo (Max 10MB)</label>
+                  <input type="file" accept="image/jpeg,image/png,image/webp" onChange={e => setBusinessLogoFile(e.target.files?.[0] || null)} className="w-full text-sm text-idea-muted file:mr-3 file:py-1.5 file:px-3 file:border file:border-idea-border file:rounded file:text-xs file:bg-white file:cursor-pointer" />
+                </div>
+              </div>
+              <div className="border border-idea-border/60 rounded-lg p-3 bg-idea-navy/[0.01]">
+                <label className="text-xs font-semibold text-idea-navy mb-2 block">Business Gallery (Max 8 Images)</label>
+                <input type="file" multiple accept="image/jpeg,image/png,image/webp" onChange={e => setBusinessGalleryFiles(Array.from(e.target.files || []))} className="w-full text-sm text-idea-muted file:mr-3 file:py-1.5 file:px-3 file:border file:border-idea-border file:rounded file:text-xs file:bg-white file:cursor-pointer" />
+                {existingGallery.length > 0 && (
+                  <div className="mt-3">
+                    <p className="text-[10px] font-bold text-idea-navy uppercase tracking-wider mb-2">Existing Images</p>
+                    <div className="flex flex-wrap gap-2">
+                      {existingGallery.map((url, i) => (
+                        <div key={i} className="relative group/img w-16 h-16 rounded border border-idea-border overflow-hidden">
+                          <img src={url} className="w-full h-full object-cover" alt="" />
+                          <button type="button" onClick={() => setExistingGallery(existingGallery.filter((_, idx) => idx !== i))} className="absolute inset-0 bg-red-600/80 text-white font-semibold flex items-center justify-center opacity-0 group-hover/img:opacity-100 transition-opacity duration-200 text-[10px]">
+                            Delete
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                {businessGalleryFiles.length > 0 && (
+                  <div className="mt-3">
+                    <p className="text-[10px] font-bold text-idea-navy uppercase tracking-wider mb-2">New Images to Upload</p>
+                    <ul className="text-xs text-idea-muted list-disc list-inside">
+                      {businessGalleryFiles.map((file, i) => <li key={i} className="truncate">{file.name}</li>)}
+                    </ul>
+                  </div>
+                )}
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>

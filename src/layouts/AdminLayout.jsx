@@ -1,12 +1,13 @@
 import { Outlet, NavLink, Navigate } from 'react-router-dom';
 import { useState } from 'react';
-import logo from '@/assets/idea-guntur-rocket-logo.jpg';
-import { LayoutDashboard, Users, CalendarDays, MessageSquare, FileText, Settings, LogOut, Menu, X, Home, TableProperties, Quote, UserCheck } from 'lucide-react';
+import logo from '@/assets/idea-logo.png';
+import { LayoutDashboard, Users, CalendarDays, MessageSquare, FileText, Settings, LogOut, Menu, X, Home, TableProperties, Quote, UserCheck, Layers } from 'lucide-react';
 import { useAuth, useLogout } from '../hooks/useAuth';
 import { useCsrf } from '../hooks/useCsrf';
 
 const navItems = [
   { label: 'Dashboard', to: '/admin', icon: LayoutDashboard, end: true },
+  { label: 'Chapters', to: '/admin/chapters', icon: Layers },
   { label: 'Head Table', to: '/admin/head-table', icon: TableProperties },
   { label: 'Coordinators', to: '/admin/coordinators', icon: UserCheck },
   { label: 'Members', to: '/admin/members', icon: Users },
@@ -29,9 +30,10 @@ export default function AdminLayout() {
   const Sidebar = () => (
     <aside className="w-64 bg-idea-navy text-white flex flex-col min-h-screen">
       <div className="p-6 border-b border-white/10">
-        <div className="flex items-center gap-3">
-          <img src={logo} alt="IDEA Guntur Rocket" className="h-14 w-auto object-contain" />
-          <span className="font-heading text-xl font-bold text-white">IDEA</span>
+        <div className="flex items-center">
+          <div className="bg-white p-2 rounded-xl inline-block shadow-sm">
+            <img src={logo} alt="IDEA" className="h-16 w-auto object-contain" />
+          </div>
         </div>
         <p className="text-white/50 text-xs mt-1">Admin Dashboard</p>
       </div>

@@ -22,6 +22,7 @@ const AdminContent = lazy(() => import('@/pages/admin/Content'));
 const AdminSettings = lazy(() => import('@/pages/admin/Settings'));
 const AdminTestimonials = lazy(() => import('@/pages/admin/Testimonials'));
 const AdminCoordinators = lazy(() => import('@/pages/admin/Coordinators'));
+const AdminChapters = lazy(() => import('@/pages/admin/Chapters'));
 
 function Loading() {
   return (
@@ -47,6 +48,7 @@ export default function App() {
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<Dashboard />} />
+          <Route path="chapters" element={<AdminChapters />} />
           <Route path="head-table" element={<HeadTable />} />
           <Route path="members" element={<AdminMembers />} />
           <Route path="events" element={<AdminEvents />} />
