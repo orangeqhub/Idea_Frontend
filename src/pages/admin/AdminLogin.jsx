@@ -14,7 +14,7 @@ export default function AdminLogin() {
   useEffect(() => { if (auth) navigate('/admin', { replace: true }); }, [auth, navigate]);
 
   const mutation = useMutation({
-    mutationFn: (data) => adminApi.post('/api/admin/auth/login', data),
+   mutationFn: (data) => adminApi.post('/admin/auth/login', data),
     onSuccess: (res) => {
       if (res.data?.data?.token) {
         localStorage.setItem('adminToken', res.data.data.token);

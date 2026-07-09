@@ -29,13 +29,13 @@ export default function AdminSettings() {
 
   const { data, isLoading } = useQuery({
     queryKey: ['admin', 'settings'],
-    queryFn: async () => (await adminApi.get('/api/admin/settings')).data.data,
+    queryFn: async () => (await adminApi.get('/admin/settings')).data.data,
   });
 
   const { register, handleSubmit } = useForm();
 
   const mutation = useMutation({
-    mutationFn: (updates) => adminApi.put('/api/admin/settings', { updates }),
+    mutationFn: (updates) => adminApi.put('/admin/settings', { updates }),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ['settings'] }); qc.invalidateQueries({ queryKey: ['admin', 'settings'] });
       setSaved(true); setTimeout(() => setSaved(false), 3000);

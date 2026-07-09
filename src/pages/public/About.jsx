@@ -4,7 +4,7 @@ import { publicApi } from '../../services/publicApi';
 import { Users, TrendingUp, Globe, Calendar, ArrowRight } from 'lucide-react';
 
 export default function About() {
-  const { data: content } = useQuery({ queryKey: ['content'], queryFn: async () => (await publicApi.get('/api/public/content')).data.data, staleTime: 10 * 60 * 1000 });
+  const { data: content } = useQuery({ queryKey: ['content'], queryFn: async () => (await publicApi.get('/public/content')).data.data, staleTime: 10 * 60 * 1000 });
 
   const values = [
     { icon: Users, title: 'Community First', desc: content?.['about.value1'] || 'We believe in the power of community. IDEA is built on trust, mutual support, and professional solidarity.' },

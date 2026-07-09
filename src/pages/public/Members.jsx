@@ -20,14 +20,14 @@ export default function Members() {
   // Fetch chapters list
   const { data: chapters = [] } = useQuery({
     queryKey: ['chapters'],
-    queryFn: async () => (await publicApi.get('/api/public/chapters')).data.data
+    queryFn: async () => (await publicApi.get('/public/chapters')).data.data
   });
 
   // Fetch active Head Table members filtered by chapterId
   const { data: heads = [], isLoading: isHeadLoading } = useQuery({
     queryKey: ['head-table', chapterId],
     queryFn: async () => {
-      const url = chapterId ? `/api/public/head-table?chapterId=${chapterId}` : '/api/public/head-table';
+      const url = chapterId ? `/public/head-table?chapterId=${chapterId}` : '/public/head-table';
       return (await publicApi.get(url)).data.data;
     }
   });
@@ -36,7 +36,7 @@ export default function Members() {
   const { data: coordinators = [], isLoading: isCoordLoading } = useQuery({
     queryKey: ['coordinators', chapterId],
     queryFn: async () => {
-      const url = chapterId ? `/api/public/coordinators?chapterId=${chapterId}` : '/api/public/coordinators';
+      const url = chapterId ? `/public/coordinators?chapterId=${chapterId}` : '/public/coordinators';
       return (await publicApi.get(url)).data.data;
     }
   });
@@ -49,7 +49,7 @@ export default function Members() {
       if (search) params.set('search', search);
       if (category) params.set('category', category);
       if (chapterId) params.set('chapterId', chapterId);
-      const res = await publicApi.get(`/api/public/members?${params}`);
+      const res = await publicApi.get(`/public/members?${params}`);
       return res.data;
     },
     placeholderData: prev => prev,

@@ -23,14 +23,14 @@ export default function AdminMembers() {
     queryFn: async () => {
       const params = new URLSearchParams({ page: String(page), pageSize: '20' });
       if (search) params.set('search', search);
-      return (await adminApi.get(`/api/admin/members?${params}`)).data;
+      return (await adminApi.get(`/admin/members?${params}`)).data;
     },
     placeholderData: prev => prev,
   });
 
   const { data: chapters = [] } = useQuery({
     queryKey: ['admin', 'chapters-list'],
-    queryFn: async () => (await publicApi.get('/api/public/chapters')).data.data,
+    queryFn: async () => (await publicApi.get('/public/chapters')).data.data,
   });
 
   const { register, handleSubmit, reset, setValue, formState: { errors } } = useForm({ defaultValues: { isActive: true, isFeatured: false, displayOrder: 1, chapterId: '', businessDescription: '' } });
@@ -48,14 +48,14 @@ export default function AdminMembers() {
       }
       fd.append('existingGallery', existingGallery.join(','));
 
-      if (editing) return adminApi.put(`/api/admin/members/${editing.id}`, fd, { headers: { 'Content-Type': 'multipart/form-data' } });
-      return adminApi.post('/api/admin/members', fd, { headers: { 'Content-Type': 'multipart/form-data' } });
+      if (editing) return adminApi.put(`/admin/members/${editing.id}`, fd, { headers: { 'Content-Type': 'multipart/form-data' } });
+      return adminApi.post('/admin/members', fd, { headers: { 'Content-Type': 'multipart/form-data' } });
     },
     onSuccess: () => { invalidate(); closeForm(); },
   });
 
   const deleteMutation = useMutation({
-    mutationFn: (id) => adminApi.delete(`/api/admin/members/${id}`),
+    mutationFn: (id) => adminApi.delete(`/admin/members/${id}`),
     onSuccess: () => { invalidate(); setDeleteId(null); },
   });
 

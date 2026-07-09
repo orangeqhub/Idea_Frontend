@@ -18,12 +18,12 @@ export default function HeadTable() {
 
   const { data, isLoading } = useQuery({
     queryKey: ['admin', 'head-table'],
-    queryFn: async () => (await adminApi.get('/api/admin/head-table')).data.data,
+    queryFn: async () => (await adminApi.get('/admin/head-table')).data.data,
   });
 
   const { data: chapters = [] } = useQuery({
     queryKey: ['admin', 'chapters-list'],
-    queryFn: async () => (await publicApi.get('/api/public/chapters')).data.data,
+    queryFn: async () => (await publicApi.get('/public/chapters')).data.data,
   });
 
   const { register, handleSubmit, reset, setValue, formState: { errors } } = useForm({ defaultValues: { isActive: true, displayOrder: 1, chapterId: '', businessDescription: '' } });
@@ -41,14 +41,14 @@ export default function HeadTable() {
       }
       fd.append('existingGallery', existingGallery.join(','));
 
-      if (editing) return adminApi.put(`/api/admin/head-table/${editing.id}`, fd, { headers: { 'Content-Type': 'multipart/form-data' } });
-      return adminApi.post('/api/admin/head-table', fd, { headers: { 'Content-Type': 'multipart/form-data' } });
+      if (editing) return adminApi.put(`/admin/head-table/${editing.id}`, fd, { headers: { 'Content-Type': 'multipart/form-data' } });
+      return adminApi.post('/admin/head-table', fd, { headers: { 'Content-Type': 'multipart/form-data' } });
     },
     onSuccess: () => { invalidate(); closeForm(); },
   });
 
   const deleteMutation = useMutation({
-    mutationFn: (id) => adminApi.delete(`/api/admin/head-table/${id}`),
+    mutationFn: (id) => adminApi.delete(`/admin/head-table/${id}`),
     onSuccess: () => { invalidate(); setDeleteId(null); },
   });
 

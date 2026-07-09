@@ -3,6 +3,6 @@ import { adminApi } from '../services/adminApi';
 
 export function useCsrf() {
   useEffect(() => {
-    adminApi.get('/api/admin/auth/csrf').catch(() => {/* ignore */});
+    adminApi.get('/admin/auth/csrf').catch(() => {/* ignore */});
   }, []);
 }

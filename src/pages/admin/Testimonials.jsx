@@ -12,7 +12,7 @@ export default function AdminTestimonials() {
 
   const { data, isLoading } = useQuery({
     queryKey: ['admin', 'testimonials'],
-    queryFn: async () => (await adminApi.get('/api/admin/testimonials')).data.data,
+    queryFn: async () => (await adminApi.get('/admin/testimonials')).data.data,
   });
 
   const { register, handleSubmit, reset, setValue, formState: { errors } } = useForm({
@@ -24,15 +24,15 @@ export default function AdminTestimonials() {
   const saveMutation = useMutation({
     mutationFn: async (payload) => {
       if (editing) {
-        return adminApi.put(`/api/admin/testimonials/${editing.id}`, payload);
+        return adminApi.put(`/admin/testimonials/${editing.id}`, payload);
       }
-      return adminApi.post('/api/admin/testimonials', payload);
+      return adminApi.post('/admin/testimonials', payload);
     },
     onSuccess: () => { invalidate(); closeForm(); },
   });
 
   const deleteMutation = useMutation({
-    mutationFn: (id) => adminApi.delete(`/api/admin/testimonials/${id}`),
+    mutationFn: (id) => adminApi.delete(`/admin/testimonials/${id}`),
     onSuccess: () => { invalidate(); setDeleteId(null); },
   });
 

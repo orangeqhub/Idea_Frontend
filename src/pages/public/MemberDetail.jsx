@@ -28,13 +28,13 @@ export default function MemberDetail() {
 
   const { data: member, isLoading, isError } = useQuery({
     queryKey: ['member', slug],
-    queryFn: async () => (await publicApi.get(`/api/public/members/${slug}`)).data.data,
+    queryFn: async () => (await publicApi.get(`/public/members/${slug}`)).data.data,
     enabled: !!slug,
   });
 
   const { data: settings } = useQuery({
     queryKey: ['settings'],
-    queryFn: async () => (await publicApi.get('/api/public/settings')).data.data,
+    queryFn: async () => (await publicApi.get('/public/settings')).data.data,
     staleTime: 10 * 60 * 1000,
   });
 

@@ -15,7 +15,7 @@ export default function EventDetail() {
 
   const { data: event, isLoading, isError } = useQuery({
     queryKey: ['event', slug],
-    queryFn: async () => (await publicApi.get(`/api/public/events/${slug}`)).data.data,
+    queryFn: async () => (await publicApi.get(`/public/events/${slug}`)).data.data,
     enabled: !!slug,
   });
 

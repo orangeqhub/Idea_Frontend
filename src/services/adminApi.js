@@ -37,7 +37,7 @@ adminApi.interceptors.response.use(
       isRefreshing = true;
       try {
         // Attempt mock refresh request
-        await axios.post(`${baseURL}/api/admin/auth/refresh`, {}, { withCredentials: true });
+        await axios.post(`${baseURL}/admin/auth/refresh`, {}, { withCredentials: true });
         if (error.config) error.config['_retry'] = true;
         isRefreshing = false;
         return adminApi(error.config);

@@ -19,7 +19,7 @@ export default function AdminEvents() {
 
   const { data, isLoading } = useQuery({
     queryKey: ['admin', 'events', page],
-    queryFn: async () => (await adminApi.get(`/api/admin/events?page=${page}&pageSize=20`)).data,
+    queryFn: async () => (await adminApi.get(`/admin/events?page=${page}&pageSize=20`)).data,
     placeholderData: prev => prev,
   });
 
@@ -32,14 +32,14 @@ export default function AdminEvents() {
       const fd = new FormData();
       Object.entries(d).forEach(([k, v]) => { if (v !== '' && v !== undefined) fd.append(k, String(v)); });
       if (coverFile) fd.append('cover', coverFile);
-      if (editing) return adminApi.put(`/api/admin/events/${editing.id}`, fd, { headers: { 'Content-Type': 'multipart/form-data' } });
-      return adminApi.post('/api/admin/events', fd, { headers: { 'Content-Type': 'multipart/form-data' } });
+      if (editing) return adminApi.put(`/admin/events/${editing.id}`, fd, { headers: { 'Content-Type': 'multipart/form-data' } });
+      return adminApi.post('/admin/events', fd, { headers: { 'Content-Type': 'multipart/form-data' } });
     },
     onSuccess: () => { invalidate(); closeForm(); },
   });
 
   const deleteMutation = useMutation({
-    mutationFn: (id) => adminApi.delete(`/api/admin/events/${id}`),
+    mutationFn: (id) => adminApi.delete(`/admin/events/${id}`),
     onSuccess: () => { invalidate(); setDeleteId(null); },
   });
 

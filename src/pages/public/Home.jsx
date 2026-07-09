@@ -6,12 +6,12 @@ import { useState, useEffect } from 'react';
 import { ArrowRight, Users, Calendar, TrendingUp, Globe } from 'lucide-react';
 
 export default function Home() {
-  const { data: content } = useQuery({ queryKey: ['content'], queryFn: async () => (await publicApi.get('/api/public/content')).data.data, staleTime: 10 * 60 * 1000 });
-  const { data: settings } = useQuery({ queryKey: ['settings'], queryFn: async () => (await publicApi.get('/api/public/settings')).data.data, staleTime: 10 * 60 * 1000 });
-  const { data: chapters = [] } = useQuery({ queryKey: ['chapters'], queryFn: async () => (await publicApi.get('/api/public/chapters')).data.data });
-  const { data: headTable } = useQuery({ queryKey: ['head-table'], queryFn: async () => (await publicApi.get('/api/public/head-table')).data.data });
-  const { data: testimonials } = useQuery({ queryKey: ['testimonials'], queryFn: async () => (await publicApi.get('/api/public/testimonials')).data.data });
-  const { data: eventsRes } = useQuery({ queryKey: ['events', 'home-preview'], queryFn: async () => (await publicApi.get('/api/public/events?status=UPCOMING&pageSize=6')).data });
+  const { data: content } = useQuery({ queryKey: ['content'], queryFn: async () => (await publicApi.get('/public/content')).data.data, staleTime: 10 * 60 * 1000 });
+  const { data: settings } = useQuery({ queryKey: ['settings'], queryFn: async () => (await publicApi.get('/public/settings')).data.data, staleTime: 10 * 60 * 1000 });
+  const { data: chapters = [] } = useQuery({ queryKey: ['chapters'], queryFn: async () => (await publicApi.get('/public/chapters')).data.data });
+  const { data: headTable } = useQuery({ queryKey: ['head-table'], queryFn: async () => (await publicApi.get('/public/head-table')).data.data });
+  const { data: testimonials } = useQuery({ queryKey: ['testimonials'], queryFn: async () => (await publicApi.get('/public/testimonials')).data.data });
+  const { data: eventsRes } = useQuery({ queryKey: ['events', 'home-preview'], queryFn: async () => (await publicApi.get('/public/events?status=UPCOMING&pageSize=6')).data });
 
   const upcomingEvents = eventsRes?.data || [];
 
@@ -251,7 +251,7 @@ function MembershipSection() {
   const { register, handleSubmit, reset, formState: { errors } } = useForm();
 
   const mutation = useMutation({
-    mutationFn: (data) => publicApi.post('/api/public/enquiries', { ...data, enquiryType: 'MEMBERSHIP' }),
+    mutationFn: (data) => publicApi.post('/public/enquiries', { ...data, enquiryType: 'MEMBERSHIP' }),
     onSuccess: () => { setSubmitted(true); reset(); },
   });
 

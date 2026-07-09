@@ -18,12 +18,12 @@ export default function AdminCoordinators() {
 
   const { data: coordinators, isLoading } = useQuery({
     queryKey: ['admin', 'coordinators'],
-    queryFn: async () => (await adminApi.get('/api/admin/coordinators')).data.data,
+    queryFn: async () => (await adminApi.get('/admin/coordinators')).data.data,
   });
 
   const { data: chapters = [] } = useQuery({
     queryKey: ['admin', 'chapters-list'],
-    queryFn: async () => (await publicApi.get('/api/public/chapters')).data.data,
+    queryFn: async () => (await publicApi.get('/public/chapters')).data.data,
   });
 
   const { register, handleSubmit, reset, setValue, formState: { errors } } = useForm({
@@ -43,14 +43,14 @@ export default function AdminCoordinators() {
       }
       fd.append('existingGallery', existingGallery.join(','));
 
-      if (editing) return adminApi.put(`/api/admin/coordinators/${editing.id}`, fd, { headers: { 'Content-Type': 'multipart/form-data' } });
-      return adminApi.post('/api/admin/coordinators', fd, { headers: { 'Content-Type': 'multipart/form-data' } });
+      if (editing) return adminApi.put(`/admin/coordinators/${editing.id}`, fd, { headers: { 'Content-Type': 'multipart/form-data' } });
+      return adminApi.post('/admin/coordinators', fd, { headers: { 'Content-Type': 'multipart/form-data' } });
     },
     onSuccess: () => { invalidate(); closeForm(); },
   });
 
   const deleteMutation = useMutation({
-    mutationFn: (id) => adminApi.delete(`/api/admin/coordinators/${id}`),
+    mutationFn: (id) => adminApi.delete(`/admin/coordinators/${id}`),
     onSuccess: () => { invalidate(); setDeleteId(null); },
   });
 

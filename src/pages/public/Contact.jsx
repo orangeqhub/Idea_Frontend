@@ -6,11 +6,11 @@ import { Phone, Mail, MapPin, Clock } from 'lucide-react';
 
 export default function Contact() {
   const [submitted, setSubmitted] = useState(false);
-  const { data: settings } = useQuery({ queryKey: ['settings'], queryFn: async () => (await publicApi.get('/api/public/settings')).data.data, staleTime: 10 * 60 * 1000 });
+  const { data: settings } = useQuery({ queryKey: ['settings'], queryFn: async () => (await publicApi.get('/public/settings')).data.data, staleTime: 10 * 60 * 1000 });
   const { register, handleSubmit, reset, formState: { errors } } = useForm();
 
   const mutation = useMutation({
-    mutationFn: (data) => publicApi.post('/api/public/enquiries', { ...data, enquiryType: 'CONTACT' }),
+    mutationFn: (data) => publicApi.post('/public/enquiries', { ...data, enquiryType: 'CONTACT' }),
     onSuccess: () => { setSubmitted(true); reset(); },
   });
 

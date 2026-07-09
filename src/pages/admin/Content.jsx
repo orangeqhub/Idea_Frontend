@@ -26,7 +26,7 @@ export default function AdminContent() {
 
   const { data, isLoading } = useQuery({
     queryKey: ['admin', 'content'],
-    queryFn: async () => (await adminApi.get('/api/admin/content')).data.data,
+    queryFn: async () => (await adminApi.get('/admin/content')).data.data,
   });
 
   useEffect(() => {
@@ -40,7 +40,7 @@ export default function AdminContent() {
   const { register, handleSubmit } = useForm();
 
   const mutation = useMutation({
-    mutationFn: (updates) => adminApi.put('/api/admin/content', { updates }),
+    mutationFn: (updates) => adminApi.put('/admin/content', { updates }),
     onSuccess: () => { qc.invalidateQueries({ queryKey: ['content'] }); qc.invalidateQueries({ queryKey: ['admin', 'content'] }); setSaved(true); setTimeout(() => setSaved(false), 3000); },
   });
 
@@ -104,7 +104,7 @@ export default function AdminContent() {
                       fd.append('file', file);
                       
                       try {
-                        const response = await adminApi.post('/api/admin/media', fd, {
+                        const response = await adminApi.post('/admin/media', fd, {
                           headers: { 'Content-Type': 'multipart/form-data' }
                         });
                         if (response.data?.success && response.data?.data?.url) {

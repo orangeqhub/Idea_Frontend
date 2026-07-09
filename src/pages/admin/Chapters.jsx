@@ -14,7 +14,7 @@ export default function AdminChapters() {
 
   const { data: chapters = [], isLoading } = useQuery({
     queryKey: ['admin', 'chapters'],
-    queryFn: async () => (await publicApi.get('/api/public/chapters')).data.data,
+    queryFn: async () => (await publicApi.get('/public/chapters')).data.data,
   });
 
   const { register, handleSubmit, reset, setValue, formState: { errors } } = useForm({
@@ -31,15 +31,15 @@ export default function AdminChapters() {
         fd.append('logo', logoFile);
       }
       if (editing) {
-        return adminApi.put(`/api/admin/chapters/${editing.id}`, fd, { headers: { 'Content-Type': 'multipart/form-data' } });
+        return adminApi.put(`/admin/chapters/${editing.id}`, fd, { headers: { 'Content-Type': 'multipart/form-data' } });
       }
-      return adminApi.post('/api/admin/chapters', fd, { headers: { 'Content-Type': 'multipart/form-data' } });
+      return adminApi.post('/admin/chapters', fd, { headers: { 'Content-Type': 'multipart/form-data' } });
     },
     onSuccess: () => { invalidate(); closeForm(); },
   });
 
   const deleteMutation = useMutation({
-    mutationFn: (id) => adminApi.delete(`/api/admin/chapters/${id}`),
+    mutationFn: (id) => adminApi.delete(`/admin/chapters/${id}`),
     onSuccess: () => { invalidate(); setDeleteId(null); },
   });
 

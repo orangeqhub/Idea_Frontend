@@ -6,7 +6,7 @@ import { Users, CalendarDays, MessageSquare, TrendingUp } from 'lucide-react';
 export default function Dashboard() {
   const { data, isLoading } = useQuery({
     queryKey: ['admin', 'overview'],
-    queryFn: async () => (await adminApi.get('/api/admin/overview')).data.data,
+    queryFn: async () => (await adminApi.get('/admin/overview')).data.data,
   });
 
   const stats = [

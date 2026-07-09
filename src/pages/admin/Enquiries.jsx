@@ -24,7 +24,7 @@ export default function AdminEnquiries() {
       const params = new URLSearchParams({ page: String(page), pageSize: '20' });
       if (typeFilter) params.set('type', typeFilter);
       if (statusFilter) params.set('status', statusFilter);
-      return (await adminApi.get(`/api/admin/enquiries?${params}`)).data;
+      return (await adminApi.get(`/admin/enquiries?${params}`)).data;
     },
     placeholderData: prev => prev,
   });
@@ -34,12 +34,12 @@ export default function AdminEnquiries() {
   const invalidate = () => { qc.invalidateQueries({ queryKey: ['admin', 'enquiries'] }); qc.invalidateQueries({ queryKey: ['admin', 'overview'] }); };
 
   const updateMutation = useMutation({
-    mutationFn: ({ id, d }) => adminApi.patch(`/api/admin/enquiries/${id}`, d),
+    mutationFn: ({ id, d }) => adminApi.patch(`/admin/enquiries/${id}`, d),
     onSuccess: (res) => { invalidate(); setSelected(res.data.data); },
   });
 
   const deleteMutation = useMutation({
-    mutationFn: (id) => adminApi.delete(`/api/admin/enquiries/${id}`),
+    mutationFn: (id) => adminApi.delete(`/admin/enquiries/${id}`),
     onSuccess: () => { invalidate(); setSelected(null); },
   });
 

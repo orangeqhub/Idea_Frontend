@@ -24,7 +24,7 @@ export default function Events() {
     queryFn: async () => {
       const params = new URLSearchParams({ page: String(page), pageSize: '9' });
       if (status) params.set('status', status);
-      const res = await publicApi.get(`/api/public/events?${params}`);
+      const res = await publicApi.get(`/public/events?${params}`);
       return res.data;
     },
     placeholderData: prev => prev,

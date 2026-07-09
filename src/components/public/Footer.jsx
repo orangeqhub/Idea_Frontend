@@ -7,7 +7,7 @@ export default function Footer() {
   const { data } = useQuery({
     queryKey: ['settings'],
     queryFn: async () => {
-      const res = await publicApi.get('/api/public/settings');
+      const res = await publicApi.get('/public/settings');
       return res.data.data;
     },
     staleTime: 10 * 60 * 1000,
