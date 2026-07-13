@@ -213,6 +213,24 @@ export default function MemberDetail() {
               </div>
             </div>
 
+            {/* Business Gallery */}
+            {(() => {
+              const galleryImages = member.businessGallery ? member.businessGallery.split(',').filter(Boolean) : [];
+              if (galleryImages.length === 0) return null;
+              return (
+                <div className="bg-white rounded-3xl border border-idea-border/60 p-8 shadow-sm">
+                  <h3 className="text-base font-extrabold text-idea-navy uppercase tracking-widest mb-6">Business Gallery</h3>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                    {galleryImages.map((imgUrl, i) => (
+                      <div key={i} className="rounded-xl overflow-hidden border border-idea-border shadow-sm group aspect-video cursor-pointer" onClick={() => setSelectedImage(imgUrl)}>
+                        <img src={imgUrl} alt="" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              );
+            })()}
+
             {/* YouTube Featured Videos */}
             {member.youtubeUrl && member.youtubeUrl.split(',').filter(url => getYoutubeId(url)).length > 0 && (
               <div className="bg-white rounded-3xl border border-idea-border/60 p-8 shadow-sm">
@@ -236,24 +254,6 @@ export default function MemberDetail() {
                 </div>
               </div>
             )}
-
-            {/* Business Gallery */}
-            {(() => {
-              const galleryImages = member.businessGallery ? member.businessGallery.split(',').filter(Boolean) : [];
-              if (galleryImages.length === 0) return null;
-              return (
-                <div className="bg-white rounded-3xl border border-idea-border/60 p-8 shadow-sm">
-                  <h3 className="text-base font-extrabold text-idea-navy uppercase tracking-widest mb-6">Business Gallery</h3>
-                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-                    {galleryImages.map((imgUrl, i) => (
-                      <div key={i} className="rounded-xl overflow-hidden border border-idea-border shadow-sm group aspect-video cursor-pointer" onClick={() => setSelectedImage(imgUrl)}>
-                        <img src={imgUrl} alt="" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              );
-            })()}
 
           </div>
         </div>
