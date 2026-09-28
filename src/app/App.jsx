@@ -12,6 +12,9 @@ const EventDetail = lazy(() => import('@/pages/public/EventDetail'));
 const About = lazy(() => import('@/pages/public/About'));
 const Contact = lazy(() => import('@/pages/public/Contact'));
 
+const Membership      = lazy(() => import('@/pages/public/Membership'));
+const MembershipAdmin = lazy(() => import('@/pages/admin/MembershipAdmin'));
+
 const AdminLogin = lazy(() => import('@/pages/admin/AdminLogin'));
 const Dashboard = lazy(() => import('@/pages/admin/Dashboard'));
 const HeadTable = lazy(() => import('@/pages/admin/HeadTable'));
@@ -44,7 +47,9 @@ export default function App() {
           <Route path="/events/:slug" element={<EventDetail />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/membership" element={<Membership />} />
         </Route>
+        <Route path="/membership/admin" element={<MembershipAdmin />} />
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<Dashboard />} />
