@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { publicApi } from '../../services/publicApi';
-import { LogIn, LogOut, Search, Eye, X, Users, CalendarDays, Shield } from 'lucide-react';
+import { LogIn, LogOut, Search, Eye, X, Users, CalendarDays } from 'lucide-react';
+import logo from '@/assets/idea-logo.png';
 
 const TOKEN_KEY   = 'membership_admin_token';
 const STATIC_BASE = (import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:3001').replace(/\/api$/, '');
@@ -38,9 +39,11 @@ function LoginForm({ onLogin }) {
     <div className="min-h-screen bg-idea-ivory flex items-center justify-center px-4">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <div className="w-16 h-16 bg-idea-navy rounded-xl flex items-center justify-center mx-auto mb-4 shadow-theme-card">
-            <Shield size={28} className="text-idea-gold" />
-          </div>
+          <img
+            src={logo}
+            alt="IDEA International"
+            className="h-24 w-auto object-contain mx-auto mb-4"
+          />
           <h1 className="font-heading text-3xl font-bold text-idea-navy">Admin Access</h1>
           <p className="text-idea-muted mt-1 text-sm">Sign in to manage membership applications</p>
         </div>
