@@ -1,0 +1,39 @@
+/* Reusable component patterns */
+
+@layer components {
+  .btn-primary {
+    @apply px-6 py-3 bg-idea-navy text-white font-semibold rounded hover:bg-idea-navy-2 transition-colors;
+  }
+
+  .btn-outline {
+    @apply px-6 py-3 border border-idea-gold text-idea-gold font-semibold rounded hover:bg-idea-gold hover:text-idea-navy transition-colors;
+  }
+
+  .card-base {
+    @apply bg-white border border-idea-border rounded-lg overflow-hidden hover:shadow-md transition-shadow;
+  }
+
+  .section-heading {
+    @apply font-heading text-3xl md:text-4xl font-bold text-idea-navy;
+  }
+
+  .section-subheading {
+    @apply text-idea-muted leading-relaxed;
+  }
+
+  .input-base {
+    @apply w-full px-3 py-2.5 border border-idea-border rounded text-sm focus:outline-none focus:border-idea-navy transition-colors;
+  }
+
+  .label-base {
+    @apply block text-sm font-medium text-idea-navy mb-1;
+  }
+
+  .badge-active {
+    @apply inline-block px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-700;
+  }
+
+  .badge-inactive {
+    @apply inline-block px-2 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-600;
+  }
+}
